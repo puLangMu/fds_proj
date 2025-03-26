@@ -17,8 +17,7 @@ treeNode *newNode(int data) {   //create a new node
     return (node);
 }
 
-
-
+// in case you need it
 void printInorder(treeNode *node) { //print the tree in inorder
     if (node == NULL) return;
     printInorder(node->left); // first recur on left child
@@ -33,19 +32,20 @@ void printPreorder(treeNode *node) { //print the tree in preorder
     printPreorder(node->right);
 }
 
-void printPostorder(treeNode *node) { //print the tree in postorder
-    if (node == NULL) return;
-    printPostorder(node->left); // first recur on left child
-    printPostorder(node->right);
-    printf("%d ", node->data);
-}
+// in case you need it
+// void printPostorder(treeNode *node) { //print the tree in postorder
+//     if (node == NULL) return;
+//     printPostorder(node->left); // first recur on left child
+//     printPostorder(node->right);
+//     printf("%d ", node->data);
+// }
 
-treeNode *createTree(int n) { //change the tree list to a tree
+treeNode *createTree(int n) { //convert the tree list to a tree
  
     treeNode *root = NULL;
 
-    treeNode **node_list = (treeNode **)malloc(sizeof(treeNode *) * n);  // malloc the space for node location 
-    int *parent_list = (int *)malloc(sizeof(int) * n); //malloc the parent list for every node 
+    treeNode **node_list = (treeNode **)malloc(sizeof(treeNode *) * n);  // allocate space for node locations
+    int *parent_list = (int *)malloc(sizeof(int) * n); // allocate space for the parent list for every node 
 
     for (int i = 0; i < n; i++) { //read the data from the console
         int temp; 
@@ -62,7 +62,7 @@ treeNode *createTree(int n) { //change the tree list to a tree
             treeNode *parent = node_list[parent_list[i]]; //record the information to one node 
             treeNode *child = node_list[i];
             
-            if (parent->data <= child->data) { // bulid the binary search tree
+            if (parent->data <= child->data) { // build the binary search tree
                 parent->right = child;
             } else {
                 parent->left = child;
@@ -86,46 +86,57 @@ treeNode *createTree(int n) { //change the tree list to a tree
 //     return 0;
 // }
 
-
 treeNode *find(treeNode *root, int target) {
     if (root == NULL) {
-        return NULL; // 如果树为空或未找到目标值，返回 NULL
+        return NULL; // If the tree is empty or the target value is not found, return NULL
     }
     if (root->data == target) {
-        return root; // 找到目标值，返回当前节点
+        return root; // Target value found, return the current node
     }
     if (target < root->data) {
-        return find(root->left, target); // 在左子树中递归查找
+        return find(root->left, target); // Recursively search in the left subtree
     } else {
-        return find(root->right, target); // 在右子树中递归查找
+        return find(root->right, target); // Recursively search in the right subtree
     }
+}
+
+int isValueInArray(int *array, int size, int value) {
+    for (int i = 0; i < size; i++) {
+        if (array[i] == value) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 void treeToArrayHelper(treeNode *root, int *array, int *size) {
     if (root == NULL) return;
 
-    // 递归遍历左子树
+    // Recursively traverse the left subtree
     treeToArrayHelper(root->left, array, size);
 
-    // 添加当前节点的值到数组中
-    array[*size] = root->data;
-    (*size)++;
+    // Add the current node's value to the array
+    if (!isValueInArray(array, *size, root->data)) {
+        // If it does not exist, add the current node's value to the array
+        array[*size] = root->data;
+        (*size)++;
+    }
 
-    // 递归遍历右子树
+    // Recursively traverse the right subtree
     treeToArrayHelper(root->right, array, size);
 }
 
 int *treeToArray(treeNode *root, int *returnSize, int n) {
     if (root == NULL) {
         *returnSize = 0;
-        return NULL; // 如果树为空，返回 NULL
+        return NULL; // If the tree is empty, return NULL
     }
 
-    // 假设树中最多有 1000 个节点，可以根据实际情况调整
+    // Assume the tree has at most 1000 nodes, adjust as needed
     int *array = (int *)malloc(sizeof(int) * n);
     *returnSize = 0;
 
-    // 使用辅助函数进行中序遍历并填充数组
+    // Use a helper function to perform an inorder traversal and fill the array
     treeToArrayHelper(root, array, returnSize);
 
     return array;
