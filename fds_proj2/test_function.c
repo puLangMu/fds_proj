@@ -19,13 +19,13 @@ treeNode* testCreateTree() {
 // Test target search
 void testFind(treeNode *root) {
     printf("Test: Search for a Target in the Tree\n");
-    int target;
-    scanf("%d", &target);
+    double target; // 修改类型为 double
+    scanf("%lf", &target); // 使用 %lf 读取 double 类型
     treeNode *result = find(root, target);
     if (result != NULL) {
-        printf("Found node with value: %d\n", result->data);
+        printf("Found node with value: %.2lf\n", result->data); // 输出 double 类型
     } else {
-        printf("Node with value %d not found.\n", target);
+        printf("Node with value %.2lf not found.\n", target);
     }
 }
 
@@ -33,10 +33,10 @@ void testFind(treeNode *root) {
 void testTreeToArray(treeNode *root) {
     printf("Test: Convert Tree to Sorted Array\n");
     int returnSize;
-    int *array = treeToArray(root, &returnSize, 8);
+    double *array = treeToArray(root, &returnSize, 8); // 修改数组类型为 double
     printf("Converted array: ");
     for (int i = 0; i < returnSize; i++) {
-        printf("%d ", array[i]);
+        printf("%.2lf ", array[i]); // 输出 double 类型
     }
     printf("\n");
     free(array);

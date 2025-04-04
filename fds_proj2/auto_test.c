@@ -1,14 +1,14 @@
 #include "tree_libary.c"
 #include <time.h>
 
-#define N1 200000  // Number of nodes in Tree 1
-#define N2 2000  // Number of nodes in Tree 2    
+#define N1 200  // Number of nodes in Tree 1
+#define N2 200  // Number of nodes in Tree 2    
 
-#define RANGE 1000  // Range of node values
+#define RANGE 20  // Range of node values
 
 #define TEST_ITERATIONS 10  // Number of test iterations
 
-treeNode* insert(treeNode* root, int data) {
+treeNode* insert(treeNode* root, double data) { // 修改参数类型为 double
     if (root == NULL) {
         return newNode(data);
     }
@@ -23,14 +23,14 @@ treeNode* insert(treeNode* root, int data) {
 treeNode* createRandomTree(int n) {
     treeNode* root = NULL;
     for (int i = 0; i < n; i++) {
-        int value = rand() % (2 * RANGE) - RANGE + 1;  // Randomly generate a value
+        double value = (rand() % (2 * RANGE) - RANGE + 1) + 0.5; // 修改为 double 类型
         root = insert(root, value);
     }
     return root;
 }
 
-void findPairs(treeNode* T1, treeNode* T2, int N) {
-    int* N1_array;
+void findPairs(treeNode* T1, treeNode* T2, double N) { // 修改 N 类型为 double
+    double* N1_array; // 修改为 double 类型
     int returnSize;
     N1_array = treeToArray(T1, &returnSize, N1);  // Convert Tree 1 to an array
 
@@ -45,25 +45,27 @@ void findPairs(treeNode* T1, treeNode* T2, int N) {
                 printf("True\n");
                 flag = 1;
             }
-            printf("%d = %d + %d\n", N, N1_array[i], N - N1_array[i]);
+            printf("%d = %d + %d\n", (int)N, (int)N1_array[i], (int)(N - N1_array[i])); // 修改为整数格式符
         }
     }
 
     if (flag == 0) {
         printf("False\n");
     }
+
+    free(N1_array); // 释放分配的内存
 }
 
 // Function to automatically generate test cases
-int generateRandomTarget(int minValue, int maxValue) {
-    return rand() % (maxValue - minValue) + minValue;  // Generate a target value N
+int generateRandomTarget(double minValue, double maxValue) { // 修改返回值类型为 double
+    return (rand() % (int)(maxValue - minValue)) + minValue + 0.5; // 修改为 double 类型
 }
 
 void test() {
     srand(time(NULL) + rand());  // Set random seed with additional randomness
 
     // Generate test cases
-    int maxValue = 100;    // Maximum range of node values
+    double maxValue = 100.0;    // 修改为 double 类型
 
     treeNode* T1 = createRandomTree(N1);  // Create Tree 1
     treeNode* T2 = createRandomTree(N2);  // Create Tree 2
@@ -79,10 +81,10 @@ void test() {
     printf("\n");
 
     // Generate a random target value N
-    int N = generateRandomTarget(-RANGE, RANGE);  // Target value range
+    double N = generateRandomTarget(-RANGE, RANGE);  // 修改为 double 类型
 
     // Output the generated target value
-    printf("Generated target value N = %d\n", N);
+    printf("Generated target value N = %d\n", (int)N); // 修改为整数格式符
 
     // Output the result of pair finding
     findPairs(T1, T2, N);

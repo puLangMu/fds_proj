@@ -15,7 +15,7 @@ int main() {
     int N;
     scanf("%d", &N);
 
-    int *n1_array;
+    double *n1_array; // 修改为 double 类型
     int returnSize;
     n1_array = treeToArray(T1, &returnSize, n1); //use the return size to avoid space waste
 
@@ -26,16 +26,16 @@ int main() {
 
     int flag = 0;
     for(int i = 0; i < returnSize; i++) {
-        if(n1_array[i] > N) { // if the value is greater than N, break the loop
+        if(n1_array[i] > N) { // 修改为 double 类型比较
             break;
         }
 
-        if(find(T2, N - n1_array[i]) != NULL) { // if the value is found in the tree
+        if(find(T2, N - n1_array[i]) != NULL) { // 修改为 double 类型计算
             if(flag == 0) {
                 printf("True\n");
                 flag = 1;
              }
-            printf("%d = %d + %d\n", N, n1_array[i], N - n1_array[i]);
+            printf("%d = %d + %d\n", N, (int)n1_array[i], (int)(N - n1_array[i])); // 修改格式符
         }
     }
 
